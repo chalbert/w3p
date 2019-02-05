@@ -109,13 +109,38 @@ class ProductItem extends HTMLElement {
 }
 ```
 
+* Behaviors
 
 ```html
-<h1>{{pageTitle}}</h1>
+class ProductItem extends HTMLLIElement {
+  template = `${this.name} by ${this.author}`
+}
+
+// not super readable...
+class ProductList extends HTMLElement {
+  template = () => `
+    <ul>${itemsTemplates()}</ul>
+  `;
+
+  itemsTemplates = () => this.items.map(item => this.itemTemplate(item))
+
+  itemTemplate = (item) => `
+    `<li>${item.name} by ${item.author}</li>`
+  `;
+} 
+```
+
+**There's probably no good way to do heavy composition without scoped component registry...**
+
+class BookList extends HTMLULElement {
+  template = '<book-item></book-item>';
+}
+
+
+```html
+<h1 render-text="pageTitle"></h1>
 <div><input bind-value="filter"></div>
-<ul>
-  <book-item items="items"></book-item
-</ul>
+<product-list></product-list>
 ```
 
 
@@ -134,4 +159,9 @@ class ProductList extends HTMLElement {
 }
 
 
+How to set html attribute?
+
 ```
+<input render-attr-disabled="isActive">
+```
+
