@@ -41,9 +41,10 @@ Although it is not required, it is recommended to make your context objects immu
 
 * Intermediate provider should only freeze the context under their own key
 * Only the root context should freeze the context object itself
+* It is recommended to only use serializable structure
 * If you share your provider outside your app :
- * It may be wiser to let the application decide if the context should be frozen
- * You should stay away from library to format your context
+  * It may be wiser to let the application decide if the context should be frozen
+  * You should stay away from library to format your context
 
 ```
 const contextKey = Symbol('intl');
@@ -58,6 +59,23 @@ rootProvider.addEventListener('contextrequest', (event) => {
   Object.feeze(event.target.context);
 });
 
+```
+
+## devconfig
+
+```
+"context": {
+  "guards": [
+    "symbol",
+    "object",
+    "serializable"
+  ],
+  "transforms": {
+    "freeze",
+    "deepfreeze",
+    "immutable
+  }
+}
 ```
 
 
