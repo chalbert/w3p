@@ -171,25 +171,63 @@ Could the solution be to **not** use a templating engine? Let's remember one of 
 
 Could we train developer into using the most efficient manual dom manipulation, maybe with some help provided by the tooling?
 
-class LowLevelComponent extends HTMLElement {
-  static state = Symbol('state');
-  
+Yes, it's longer to write a low level component this way. But having a component completly decoupled form any dependency is a greate asset.
+
+```js
+class LowLevelComponent extends HTMLElement {  
   connectedCallback() {
-    const state = this[LowLevelComponent.state]; 
-    const h1 = document.createElement('h1');
-    const div = document.createElement('div');
-    const button = document.createElement('button');
-    div.appendChild(button);
-    const title = document.createTextNode(state.title);
-    h1.appendChild(title);
-    
-    this.appendChild(h1);
-    this.appendChild(div);
-    
-    button.addEventListener((event) => this.onClick(event));
+    this.empty();
+    this.render();
+    this.addEventListenners();
   }
   
-  onClick(event) {
+  disconnectedCallback() {
+    this.removeEventListenners();
+  }
+  
+  render() {    
+    this.appendChild(this.renderHeader());
+    this.appendChild(this.renderActionBar());
+  }
+  
+  empty() {
+    while (this.firstChild) {
+      this.removeChild(this.firstChild);
+    }
+  }
+  
+  renderHeader() {
+    const header = document.createElement('header');
+    const title = document.createElement('h1');
+
+    const titleText = document.createTextNode(this.state.title);
+    h1.appendChild(titleText);
+    
+    return header;
+  }
+  
+  renderActionBar() {
+    const actionBar = document.createElement('div');
+    const actionButton = document.createElement('button');
+    actionBar.appendChild(actionButton);  
+    
+    this.refs = { ...this.refs, actionButton }
+    
+    return actionBar;
+  }
+  
+  addEventListeners() {
+    this.refs.button.addEventListener(this.onClick);
+  }
+  
+  removeEventListenners() {
+    this.refs.button.removeEventListener(this.onClick);
+  }
+  
+  onClick = (event) => {
   
   }
 }
+```
+
+The idea woud be to select the level of abstraction of the templating according to the level of abstraction of the component. Low level component would use low level dom manipultion, high level business component would use high level templating. And in between you would see a transition.
