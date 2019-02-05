@@ -165,3 +165,31 @@ How to set html attribute?
 <input render-attr-disabled="isActive">
 ```
 
+## Rendering low level component
+
+Could the solution be to **not** use a templating engine? Let's remember one of the Platform vow is to reduce the abstraction level to the minimum, ideally with no abstraction at all.
+
+Could we train developer into using the most efficient manual dom manipulation, maybe with some help provided by the tooling?
+
+class LowLevelComponent extends HTMLElement {
+  static state = Symbol('state');
+  
+  connectedCallback() {
+    const state = this[LowLevelComponent.state]; 
+    const h1 = document.createElement('h1');
+    const div = document.createElement('div');
+    const button = document.createElement('button');
+    div.appendChild(button);
+    const title = document.createTextNode(state.title);
+    h1.appendChild(title);
+    
+    this.appendChild(h1);
+    this.appendChild(div);
+    
+    button.addEventListener((event) => this.onClick(event));
+  }
+  
+  onClick(event) {
+  
+  }
+}
