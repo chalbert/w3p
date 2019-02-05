@@ -5,25 +5,43 @@
 Context can be requested by dispatching the `contextrequest` event. 
 
 * The custom event **must** bubble
-* If at least one context provider is available, a context object with be created on the consumer element. 
-* Each context provider exposes its content on a different key.
+* The full context will added to `detail` of the `contextrequest` event itself.
 
 ```js
-consumer.context === undefined; // true
 const event = new CustomEvent('contextrequest', {
   bubbles: true
 });
 consumer.dispatchEvent(event);
-typeof consumer.context === 'object'; // true
+const { context } = event.detail;
 ```
+
+## Context change
+
+When a context changes, the `contextchange` event must be dispatched on the `window` object.
+
+* The `type` property of `detail` must correspond to the context key of the context that has changed
+* The `context` property of `detail` must to the context that has changed
+* One event is triggered for each context that changes
+
+Listenning to context changes:
+
+```js
+window.addEventListenner('contextchange', (event) => {
+  const { type, context } = event.detail;
+});
+```
+
 ## Providing context
 
 Context can be provided by listening to the `contextrequest` event.
 
+* If a `types` property is defined on the detail of the `contextrequest` event, the provider should only anwser if its type its key is included in the list.
 * A `context` object **must** be added to the target, if it doesn't already exist.
 * A single context value **must** be added to the target's context using a unique context key.
 * Unless you have control on the application context, it is recommended to use a Symbol as the context key.
 * The context value can be of any type, but it is recommended to use an object to allow easy extension.
+* A component providing context **should** include a `contextType` property corresponding to the context key.
+* A single component **should not** provide more than one context.
 
 ```js
 const contextKey = Symbol('intl');
@@ -34,6 +52,8 @@ provider.addEventListener('contextrequest', (event) => {
   };
 });
 ```
+
+When the context changes
 
 ## Immutable context
 
