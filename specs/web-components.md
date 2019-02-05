@@ -53,10 +53,59 @@ Use cases:
 </ul>
 ```
 
+### HOC
+
+* Composition is nicer, but we don't to create a pyramid of doom.
+  ```html
+  <with-intl>
+    <with-connect>
+      <with-reducer>
+        <with-saga>
+          <my-component></my-component>
+        </with-saga>
+       </with-reducer>
+    </with-connect>
+  </with-intl>
+  ```
+* Inheritance *could* work with strong guidelines, although is *feels* wrong when use to real composition.
+  * Only public `constructor` method authorized
 
 ```js
+function withIntl(WrappedItem) {
+  return class WithIntl extends WrappedItem {
+    constructor(...args) {
+      super(...args);
+    }
+  }
+}
+```
+
+Manual extensions
+
+```js
+function withIntl(element) {
+  const event = new CustomEvent('contextrequest', {
+    detail: {
+      types: ['intl']
+    }
+  });
+  element.dispatch(event);
+  const { intl } = event.detail.context;
+  element.intl = intl;
+  element.addEventListenner('contextchange', (event) => {
+    if (event.detail.type === 'intl') {
+       const { intl } = event.detail.context;
+      element.intl = event.;
+    }
+  });
+}
+
 class ProductItem extends HTMLElement {
-    
+  constructor(args) {
+    super(..args);
+    withIntl(this);
+    // call each hocs
+  }
 }
 ```
 
