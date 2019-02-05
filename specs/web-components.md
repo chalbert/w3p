@@ -55,6 +55,23 @@ Use cases:
 
 
 ```js
+class ProductItem extends HTMLElement {
+    
+}
+```
+
+
+```html
+<h1>{{pageTitle}}</h1>
+<div><input bind-value="filter"></div>
+<ul>
+  <book-item items="items"></book-item
+</ul>
+```
+
+
+
+```js
 
 class ProductList extends HTMLElement {
   template = template`
