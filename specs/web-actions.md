@@ -4,17 +4,17 @@
 
 Actions can be dispatched as an `action` event.
 
-* The custom event must bubble
-* The custom event detail must be defined as an object
-* The type of action must be set as the `type` field of the detail object
-* Data can be aded as the `data` field of the detail object
-* It is recommended that the `data` field is set as an object to allow easy extension
+* The custom event **must** bubble
+* The custom event detail **must** be defined as an object
+* A unique `type` field **must** be added to the detail object
+* Data **may** be added as the `data` field of the detail object
+* It is **recommended** that the `data` field is set as an object to allow easy extension
 
 ```js
 const event = new CustomEvent('action', {
   bubbles: true,
   detail: {
-    type: 'ITEM_SELECTED',
+    type: 'selectItem',
     data: {
       item
     }
@@ -22,4 +22,19 @@ const event = new CustomEvent('action', {
 });
 actor.dispatchEvent(event);
 ```
+
+# Actor interface
+
+A component **may** become an `actor` by implementing the `Actor` interface.
+
+```js
+dispatchAction(type: string, data) : boolean;
+```
+
+It can then be used thus:
+
+```js
+this.addEventListener('click', () => this.dispatchAction('selectItem', this.item));
+```
+
 
