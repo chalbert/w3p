@@ -23,7 +23,7 @@ const event = new CustomEvent('action', {
 actor.dispatchEvent(event);
 ```
 
-# Actor interface
+## Actor interface
 
 A component **may** become an `actor` by implementing the `Actor` interface.
 
@@ -37,4 +37,11 @@ It can then be used thus:
 this.addEventListener('click', () => this.dispatchAction('selectItem', this.item));
 ```
 
+## Action behaviors
+
+Action behaviors are behaviors matching the name `{event}-action`. An action with a type corresponding to the attribute value **must** be dispatched. The data of the event **must** include the event object (`data: { event }`).
+
+```html
+<button click-action="selectItem">Select</button>
+```
 
