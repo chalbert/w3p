@@ -67,6 +67,7 @@ Use cases:
     </with-connect>
   </with-intl>
   ```
+  An alternative would be to use shadow-dom to offuscate the wrappers. The good points about visible wrapper is that it is very transparent and easy to debug. The downside could be its performance, but it would be worth do a real perf analysis. Usability is more important than pure perf.
 * Inheritance *could* work with strong guidelines, although is *feels* wrong when use to real composition.
   * Only public `constructor` method authorized
 
@@ -173,6 +174,8 @@ Could we train developer into using the most efficient manual dom manipulation, 
 
 Yes, it's longer to write a low level component this way. But having a component completly decoupled form any dependency is a greate asset.
 
+Event better, use a tool that help generate, standard compliant, 0 abstraction code. The final code is not hidden, but introduce to the developer. Component can be created either by code or by the tools, and the tool is clever enough to understand the code.  **Tools are the abstraction**.
+
 ```js
 class LowLevelComponent extends HTMLElement {  
   connectedCallback() {
@@ -231,3 +234,18 @@ class LowLevelComponent extends HTMLElement {
 ```
 
 The idea woud be to select the level of abstraction of the templating according to the level of abstraction of the component. Low level component would use low level dom manipultion, high level business component would use high level templating. And in between you would see a transition.
+
+## Passing data to subcomponents
+
+* Attribute : string only
+* Property : most direct way to pass and get data. Can use getter/setter.
+* Method : A bit more complex, allow hidden structure. Do we want to hide structure? What benefit over getter/setter. More consistant to always use property?
+* Sub components.
+* Script or template containing js/json.
+* Event providing data
+* Event requesting data
+
+Primitive data : attribute, always mapped to property. Allow type casting.
+Rich data : property.
+
+Direct data (property) and indirect data (context).
