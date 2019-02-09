@@ -249,3 +249,6 @@ Primitive data : attribute, always mapped to property. Allow type casting.
 Rich data : property.
 
 Direct data (property) and indirect data (context).
+
+When a component is using a  context, it is said to be *connected* to a context.
+
