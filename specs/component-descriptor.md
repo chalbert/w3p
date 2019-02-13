@@ -10,6 +10,17 @@ Standard way to represent the structure of a component.
   
   },
   "properties": {},
-  "actions": {}
+  "actions": {},
+  "children": [
+    {
+      "tagName": "DIV",
+      "children: [
+        {
+          "tagname": "INPUT",
+          
+        }
+      ]
+    }
+  ]
 }
 ```
