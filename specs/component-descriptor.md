@@ -14,7 +14,7 @@ Standard way to represent the structure of a component.
   "children": [
     {
       "tagName": "DIV",
-      "children: [
+      "children": [
         {
           "tagname": "INPUT",
           
