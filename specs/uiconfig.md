@@ -42,9 +42,10 @@ Libraries integrate with your configuration.
     "default": "small",
     "variants": {
       "small": {
-      "size": {
-        "height": "24px",
-        "width": "24px"
+        "size": {
+          "height": "24px",
+          "width": "24px"
+        }
       }
     }
   },
